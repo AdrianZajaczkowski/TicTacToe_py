@@ -7,6 +7,7 @@ from logic import Logic
 
 class Board(tk.Toplevel):
     def __init__(self, rounds):
+        print(rounds)
         self.rounds = rounds
 
         self.window = tk.Tk()

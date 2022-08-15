@@ -22,29 +22,38 @@ class Logic():
         self.reset_board = False
         self.tie = False
 
-        self.board_status = np.zeros(shape=(3, 3))
+        self.board_status = np.zeros(shape=(3, 3))  # inicjacja zer w siatce
         self.symbol_s = SYMBOL["SIZE"]
         self.symbol_color_X = SYMBOL["X"]
         self.symbol_color_O = SYMBOL["O"]
         self.window.bind('<Button-1>', self.click)
 
-    def draw_X(self, logic_pos):
+    def draw_X(self, logic_pos):  # draw X from x0,y0 to x1,y1
 
         grid_pos = self.get_grid_pos(logic_pos)
-        self.canvas.create_line(grid_pos[0]-self.symbol_s, grid_pos[1]-self.symbol_s, grid_pos[0] +
-                                self.symbol_s, grid_pos[1]+self.symbol_s, width=self.symbol_s,)
-        self.canvas.create_line(grid_pos[0]-self.symbol_s, grid_pos[1]+self.symbol_s, grid_pos[0] +
-                                self.symbol_s, grid_pos[1]-self.symbol_s, width=self.symbol_s, fill=self.symbol_color_X)
 
-    def draw_O(self, logic_pos):
+        self.canvas.create_line(grid_pos[0]-self.symbol_s,
+                                grid_pos[1]-self.symbol_s,
+                                grid_pos[0]+self.symbol_s,
+                                grid_pos[1]+self.symbol_s,
+                                width=self.symbol_s,)  # linia czarna
 
-        logic_pos = np.array(logic_pos)
+        self.canvas.create_line(grid_pos[0]-self.symbol_s,
+                                grid_pos[1]+self.symbol_s,
+                                grid_pos[0] + self.symbol_s,
+                                grid_pos[1]-self.symbol_s,
+                                width=self.symbol_s,
+                                fill=self.symbol_color_X)  # linia czerwona
+
+    def draw_O(self, logic_pos):  # draw O from x0y0 to x1,y1
+
         grid_pos = self.get_grid_pos(logic_pos)
         self.canvas.create_oval(grid_pos[0]-self.symbol_s, grid_pos[1]+self.symbol_s, grid_pos[0] +
                                 self.symbol_s, grid_pos[1]-self.symbol_s, width=self.symbol_s, outline=self.symbol_color_O)
 
     def get_grid_pos(self, logic_position):
         logic_position = np.array(logic_position, dtype=int)
+        print(logic_position)
         return (SIZE["WIDTH"] / 3)*logic_position + SIZE["WIDTH"] / 6
 
     def get_logic_pos(self, grid_position):
@@ -59,12 +68,13 @@ class Logic():
 
     def check_win(self, player):
         player = -1 if player == 'X' else 1
-        for i in range(3):
+        for i in range(3):  # check row and columns
             if self.board_status[i][0] == self.board_status[i][1] == self.board_status[i][2] == player:
                 return True
             if self.board_status[0][i] == self.board_status[1][i] == self.board_status[2][i] == player:
                 return True
 
+        # check diadonals
         if self.board_status[0][0] == self.board_status[1][1] == self.board_status[2][2] == player:
             return True
         if self.board_status[2][0] == self.board_status[1][1] == self.board_status[0][2] == player:

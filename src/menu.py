@@ -11,29 +11,22 @@ class MainWindow(tk.Tk):
         self.round = 1
         self.title("TicTacToe: Menu")
         positionRight = int(
-            self.winfo_screenwidth()/2 - SIZE["WIDTH"]/2)
+            self.winfo_screenwidth()/2 - SIZE["WIDTH"])
         positionDown = int(
-            self.winfo_screenheight()/2 - SIZE["WIDTH"]/2+20)
+            self.winfo_screenheight()/2 - SIZE["HEIGHT"])
 
-        self.geometry("+{}+{}".format(positionRight, positionDown))
+        self.geometry(f"{positionRight}x{positionDown}")
+        print(f"{positionRight}x{positionDown}")
 
         self.start = ttk.Button(
             self, text="Start the game", command=self._start, width=50)
 
         self.start.pack()
-        self.again = ttk.Button(
-            self, text="Play again", command=self._again, width=50)
-
-        self.start.pack()
 
     def _start(self):
-        # pass
+
         Board(self.round)
         self.round += 1
-        # app.withdraw()
-
-    def _again():
-        pass
 
 
 if __name__ == "__main__":
